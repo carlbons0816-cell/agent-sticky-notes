@@ -11,6 +11,7 @@ on:
 env:
   CSC_IDENTITY_AUTO_DISCOVERY: false
   ELECTRON_BUILDER_PUBLISH: never
+  GH_TOKEN: ${{ github.token }}
 
 jobs:
   build-windows:
@@ -25,7 +26,7 @@ jobs:
 
       - run: npm ci
 
-      - run: npm run dist:win
+      - run: npm run dist:win -- --publish never
 
       - uses: actions/upload-artifact@v4
         with:
@@ -45,7 +46,7 @@ jobs:
 
       - run: npm ci
 
-      - run: npm run dist:mac
+      - run: npm run dist:mac -- --publish never
 
       - uses: actions/upload-artifact@v4
         with:
