@@ -1,5 +1,5 @@
 # Builds Windows .exe (NSIS) and macOS .dmg (Intel + Apple Silicon).
-# DMGs must be produced on a Mac runner; Windows cannot create mac installers.
+# DMGs must be produced on a Mac runner.
 
 name: Build desktop installers
 
@@ -7,6 +7,10 @@ on:
   workflow_dispatch:
   push:
     branches: [main, master]
+
+env:
+  # Skip code signing in CI (no certs on GitHub runners — avoids common exit 1 failures).
+  CSC_IDENTITY_AUTO_DISCOVERY: false
 
 jobs:
   build-windows:
@@ -16,7 +20,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
           cache: npm
 
       - run: npm ci
@@ -26,7 +30,8 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: windows-setup
-          path: release/*Setup*.exe
+          path: release/*.exe
+          if-no-files-found: error
 
   build-mac:
     runs-on: macos-latest
@@ -35,7 +40,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
           cache: npm
 
       - run: npm ci
@@ -46,3 +51,4 @@ jobs:
         with:
           name: mac-dmg
           path: release/*.dmg
+          if-no-files-found: error
