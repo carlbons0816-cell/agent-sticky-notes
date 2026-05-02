@@ -9,8 +9,8 @@ on:
     branches: [main, master]
 
 env:
-  # Skip code signing in CI (no certs on GitHub runners — avoids common exit 1 failures).
   CSC_IDENTITY_AUTO_DISCOVERY: false
+  ELECTRON_BUILDER_PUBLISH: never
 
 jobs:
   build-windows:
