@@ -1,0 +1,359 @@
+/* Agent Sticky Notes: floating sticky panel */
+#asn-panel {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  width: 390px;
+  max-height: calc(100vh - 48px);
+  display: flex;
+  flex-direction: column;
+  z-index: 2147483647;
+  border-radius: 16px;
+  border: 1px solid #e0bf47;
+  background: #f7f4e6;
+  color: #2d2d2d;
+  box-shadow: 0 14px 34px rgba(31, 24, 0, 0.24);
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  overflow: hidden;
+}
+
+#asn-panel.asn-dark {
+  background: #2a2d33;
+  color: #efefef;
+  border-color: #50545d;
+}
+
+.asn-hidden {
+  display: none !important;
+}
+
+.asn-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 14px;
+  background: linear-gradient(180deg, #f6c928 0%, #f3bd1f 100%);
+  border-bottom: 1px solid rgba(115, 84, 0, 0.25);
+  cursor: grab;
+  user-select: none;
+}
+
+#asn-panel.asn-dark .asn-header {
+  background: #3a3f47;
+  border-bottom-color: rgba(255, 255, 255, 0.12);
+}
+
+.asn-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.asn-drag-indicator {
+  opacity: 0.7;
+  font-size: 13px;
+}
+
+.asn-file-icon {
+  font-size: 14px;
+}
+
+.asn-title {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.asn-date-badge {
+  font-size: 11px;
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(95, 74, 0, 0.22);
+  border-radius: 999px;
+  padding: 4px 8px;
+  cursor: pointer;
+  color: #5e4600;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.asn-date-badge:hover {
+  background: rgba(255, 255, 255, 0.62);
+}
+
+.asn-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+}
+
+.asn-date-input-popover {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  border: 1px solid #e2c65f;
+  border-radius: 8px;
+  background: #fff;
+  color: #333;
+  padding: 4px 6px;
+  font-size: 12px;
+  z-index: 3;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.asn-agent-name-input {
+  width: 0;
+  min-width: 72px;
+  flex: 1;
+  max-width: 130px;
+  box-sizing: border-box;
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(95, 74, 0, 0.22);
+  background: rgba(255, 255, 255, 0.55);
+  color: #3d2f00;
+  outline: none;
+}
+
+.asn-agent-name-input::placeholder {
+  color: rgba(94, 70, 0, 0.45);
+}
+
+.asn-agent-name-input:focus {
+  background: #fff;
+  border-color: rgba(94, 70, 0, 0.45);
+  box-shadow: 0 0 0 2px rgba(242, 181, 0, 0.35);
+}
+
+#asn-panel.asn-dark .asn-agent-name-input {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #efefef;
+}
+
+#asn-panel.asn-dark .asn-agent-name-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+#asn-panel.asn-dark .asn-agent-name-input:focus {
+  background: #2a2d33;
+  border-color: rgba(242, 181, 0, 0.5);
+}
+
+.asn-btn {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 9px;
+  background: #ffffff;
+  color: inherit;
+  padding: 6px 8px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.asn-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+}
+
+#asn-panel.asn-dark .asn-btn {
+  background: #3c4048;
+  border-color: #5c616d;
+  color: #efefef;
+}
+
+.asn-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px 12px;
+  overflow: auto;
+}
+
+.asn-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid #e5d29c;
+  background: #f8f1d4;
+}
+
+.asn-tab-btn {
+  border: 0;
+  background: transparent;
+  color: #7a5d00;
+  font-size: 13px;
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+
+.asn-tab-btn.asn-tab-active {
+  color: #5e4600;
+  font-weight: 600;
+  border-bottom-color: #f2b500;
+}
+
+.asn-dragging .asn-header {
+  cursor: grabbing;
+}
+
+.asn-search {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #e4c85f;
+  border-radius: 999px;
+  padding: 9px 12px;
+  font-size: 13px;
+  outline: none;
+  background: #fffef9;
+}
+
+#asn-panel.asn-dark .asn-search,
+#asn-panel.asn-dark .asn-input {
+  background: #1f2228;
+  color: #efefef;
+  border-color: #5b6270;
+}
+
+.asn-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  max-height: 300px;
+  overflow: auto;
+  padding-right: 2px;
+}
+
+.asn-note-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 8px;
+  align-items: start;
+  background: rgba(255, 255, 255, 0.36);
+  border-bottom: 1px solid rgba(164, 142, 69, 0.26);
+  border-radius: 0;
+  padding: 9px 8px;
+}
+
+#asn-panel.asn-dark .asn-note-item {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.asn-copy-btn {
+  width: 30px;
+  min-width: 30px;
+  height: 30px;
+  border-radius: 99px;
+  border: 1px solid rgba(174, 145, 48, 0.24);
+  background: #f6efcf;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+#asn-panel.asn-dark .asn-copy-btn {
+  background: #3b4048;
+  border-color: #5c616d;
+}
+
+.asn-copy-btn:hover {
+  background: #fff8dd;
+}
+
+.asn-note-text {
+  font-size: 13px;
+  line-height: 1.35;
+  word-break: break-word;
+  padding-top: 6px;
+}
+
+.asn-item-actions {
+  display: flex;
+  gap: 4px;
+  padding-top: 2px;
+}
+
+.asn-mini-btn {
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  border-radius: 6px;
+  background: #fff8da;
+  font-size: 11px;
+  padding: 5px 7px;
+  cursor: pointer;
+}
+
+#asn-panel.asn-dark .asn-mini-btn {
+  background: #3b4048;
+  border-color: #5c616d;
+  color: #efefef;
+}
+
+.asn-add-row {
+  display: flex;
+  gap: 8px;
+}
+
+.asn-input {
+  flex: 1;
+  border: 1px solid #e4c85f;
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 13px;
+  outline: none;
+  background: #fffef9;
+}
+
+.asn-toast {
+  font-size: 12px;
+  opacity: 0.85;
+  min-height: 16px;
+  color: #6a5600;
+}
+
+.asn-muted {
+  font-size: 12px;
+  opacity: 0.75;
+  padding: 4px 2px 6px;
+}
+
+.asn-shortcut-wrap {
+  border-top: 1px dashed rgba(0, 0, 0, 0.12);
+  padding-top: 10px;
+  margin-top: 4px;
+}
+
+#asn-panel.asn-dark .asn-shortcut-wrap {
+  border-top-color: rgba(255, 255, 255, 0.2);
+}
+
+.asn-shortcut-row {
+  display: grid;
+  grid-template-columns: 116px 1fr;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.asn-shortcut-row label {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.asn-shortcut-input {
+  cursor: pointer;
+}
+
+.asn-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  padding-top: 6px;
+  color: #8a6a00;
+}
+
+.asn-status::before {
+  content: "● ";
+  color: #49b664;
+}

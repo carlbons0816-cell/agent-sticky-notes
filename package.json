@@ -1,0 +1,38 @@
+{
+  "name": "agent-sticky-notes",
+  "version": "1.0.0",
+  "description": "Floating sticky notes — desktop app and browser extension",
+  "author": "Agent Sticky Notes",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "dist:win": "electron-builder --win",
+    "dist:mac": "electron-builder --mac --x64 --arm64"
+  },
+  "build": {
+    "appId": "com.agent.stickynotes",
+    "productName": "Agent Sticky Notes",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "main.js",
+      "index.html",
+      "content.js",
+      "styles.css"
+    ],
+    "win": {
+      "target": ["nsis"]
+    },
+    "mac": {
+      "target": ["dmg"],
+      "category": "public.app-category.productivity"
+    }
+  },
+  "devDependencies": {
+    "electron": "^33.4.0",
+    "electron-builder": "^25.1.8"
+  }
+}
